@@ -1,124 +1,148 @@
-<html>
-  <head>
-    <meta name="generator" content="Hexo 3.8.0" />
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="generator" content="Hexo 3.8.0"/>
+    <title>텍스트 변환기</title>
     <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-      #integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-      crossorigin="anonymous"
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+            crossorigin="anonymous"
+    />
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+            integrity="sha384-dyB8ZXXm0N3oWxA1gfC0wK6ZHCSxqOhgXPIq1bG0D9V52PEqaeILhG6nSk1kvV3f"
+            crossorigin="anonymous"
     />
     <script
-      src="//code.jquery.com/jquery-3.3.1.min.js"
-      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-      crossorigin="anonymous"
+            src="https://code.jquery.com/jquery-3.6.0.min.js"
+            crossorigin="anonymous"
     ></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
-  </head>
+    <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.10/clipboard.min.js"
+    ></script>
+    <style>
+        body {
+            overflow-x: hidden;
+            background-color: #f8f9fa;
+        }
 
-  <body style="overflow-x: hidden">
+        .form-control {
+            border-radius: 0.5rem;
+        }
+
+        .btn {
+            border-radius: 0.5rem;
+        }
+
+        .container {
+            max-width: 600px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">텍스트 변환기</h1>
     <form id="spam-form">
-      <div class="form-group">
-        <textarea
-          id="text-source"
-          name="text"
-          class="form-control"
-          rows="7"
-          maxlength="300"
-          placeholder="바꾸려는 글귀를 입력하세요."
-          style="resize: none"
-        ></textarea>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-md-5 col-sm-5 col-4">
-          <button
-            type="button"
-            class="btn-transform btn btn-info btn-block"
-            data-mode="spam"
-          >
-            스팸체
-          </button>
+        <div class="form-group">
+            <label for="text-source" class="sr-only">입력 텍스트</label>
+            <textarea
+                    id="text-source"
+                    name="text"
+                    class="form-control shadow-sm"
+                    rows="7"
+                    maxlength="300"
+                    placeholder="바꾸려는 글귀를 입력하세요."
+                    style="resize: vertical"
+            ></textarea>
         </div>
-        <div class="form-group col-md-5 col-sm-5 col-4">
-          <button
-            type="button"
-            class="btn-transform btn btn-info btn-block"
-            data-mode="korean"
-          >
-            한국인전용체
-          </button>
+        <div class="form-row text-center">
+            <div class="col-md-5 col-sm-5 mb-2">
+                <button
+                        type="button"
+                        class="btn-transform btn btn-primary btn-block"
+                        data-mode="spam"
+                >
+                    <i class="fas fa-comments"></i> 스팸체
+                </button>
+            </div>
+            <div class="col-md-5 col-sm-5 mb-2">
+                <button
+                        type="button"
+                        class="btn-transform btn btn-primary btn-block"
+                        data-mode="korean"
+                >
+                    <i class="fas fa-language"></i> 한국인전용체
+                </button>
+            </div>
+            <div class="col-md-2 col-sm-2 mb-2">
+                <button id="btn-reset" type="button" class="btn btn-danger btn-block">
+                    <i class="fas fa-undo"></i> 다시쓰기
+                </button>
+            </div>
         </div>
-        <div class="form-group col-md-2 col-sm-2 col-4">
-          <button id="btn-reset" type="button" class="btn btn-danger btn-block">
-            다시쓰기
-          </button>
+        <div class="form-group">
+            <label for="text-transformed" class="sr-only">변환된 텍스트</label>
+            <textarea
+                    id="text-transformed"
+                    class="form-control shadow-sm"
+                    rows="7"
+                    style="resize: vertical"
+                    placeholder="변환된 텍스트가 여기에 표시됩니다."
+            ></textarea>
         </div>
-      </div>
-      <div class="form-group">
-        <textarea
-          id="text-transformed"
-          class="form-control"
-          rows="7"
-          style="resize: none"
-        ></textarea>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-md-12 col-sm-12 col-12">
-          <button
-            id="btn-copy"
-            type="button"
-            class="btn btn-info btn-block"
-            data-clipboard-target="#text-transformed"
-          >
-            복사하기
-          </button>
+        <div class="form-row">
+            <div class="col-md-12">
+                <button
+                        id="btn-copy"
+                        type="button"
+                        class="btn btn-success btn-block"
+                        data-clipboard-target="#text-transformed"
+                >
+                    <i class="fas fa-copy"></i> 복사하기
+                </button>
+            </div>
         </div>
-      </div>
     </form>
+</div>
 
-    <script type="text/javascript" src="js/kotlin.js"></script>
-    <script type="text/javascript" src="js/spammaker.js"></script>
-    <script>
-      const clipboard = new ClipboardJS("#btn-copy");
-      clipboard.on("success", function (e) {
+<script src="js/kotlin.js"></script>
+<script src="js/spammaker.js"></script>
+<script>
+    const clipboard = new ClipboardJS("#btn-copy");
+    clipboard.on("success", function (e) {
         alert("복사 완료!");
         e.clearSelection();
-      });
+    });
 
-      clipboard.on("error", function (e) {
+    clipboard.on("error", function (e) {
         alert("복사 실패! 다시 시도해주세요.");
-      });
+    });
 
-      $(document).ready(function () {
-        $("#btn-reset").click(function (e) {
-          $("#text-source").val("");
-          $("#text-transformed").val("");
+    $(document).ready(function () {
+        $("#btn-reset").click(function () {
+            $("#text-source").val("");
+            $("#text-transformed").val("");
         });
 
         $(".btn-transform").click(function (e) {
-          const source = $("#text-source").val();
-          if (!source) {
-            alert("입력이 제대로 안된거 같은데요");
-            return;
-          }
+            const source = $("#text-source").val();
+            if (!source) {
+                alert("입력이 제대로 안된거 같은데요");
+                return;
+            }
 
-          switch ($(e.target).data("mode")) {
-            case "spam":
-              $("#text-transformed").val(spammaker.toSpam(source));
-              break;
-            case "korean":
-              $("#text-transformed").val(spammaker.toKorean(source));
-              break;
-          }
+            const mode = $(e.target).data("mode") || $(e.target).parent().data("mode");
+            if (mode === "spam") {
+                $("#text-transformed").val(spammaker.toSpam(source));
+            } else if (mode === "korean") {
+                $("#text-transformed").val(spammaker.toKorean(source));
+            }
         });
-      });
-
-      const defaultPlaceholder = $("#text-source").attr("placeholder");
-      $("#text-transformed").attr(
-        "placeholder",
-        spammaker.toSpam(defaultPlaceholder)
-      );
-      // console.log(spammaker.toSpam("동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세"));
-      // console.log(spammaker.toKorean("이 별점 높은 숙소 사실 가보니 매우 구립니다 사장님은 불친절하고 조식은 드럽게 맛이 없어요 별 1개도 아깝습니다"))
-    </script>
-  </body>
+    });
+</script>
+</body>
 </html>
